@@ -153,6 +153,7 @@ where
         .route("/{store_id}/webhook", get(stores::get_store_webhook::<A>))
         .route("/{store_id}/webhook", put(stores::configure_store_webhook::<A>))
         .route("/{store_id}/webhook", delete(stores::delete_store_webhook::<A>))
+        .route("/{store_id}/webhook/rotate", post(stores::rotate_store_webhook_secret::<A>))
         // Payment methods
         .route("/{store_id}/payment-methods", get(stores::list_payment_methods::<A>))
         .route("/{store_id}/payment-methods", post(stores::create_payment_method::<A>))
@@ -250,6 +251,7 @@ where
     let payment_routes = Router::new()
         .route("/", get(invoices::list_payments::<A>))
         .route("/export.csv", get(invoices::export_payments_csv::<A>))
+        .route("/ledger.csv", get(invoices::export_ledger_csv::<A>))
         .route("/{payment_id}", get(invoices::get_payment::<A>))
         .with_state(state.clone());
 
